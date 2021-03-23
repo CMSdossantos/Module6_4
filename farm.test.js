@@ -1,6 +1,6 @@
 const { getYieldForPlant, getYieldForCrop, getTotalYield, getCostsForCrop,
         getRevenueForCrop, getProfitForCrop, getTotalProfit } = require("./farm");
-
+// normaal gesproken een input object voor elke test, maar gezien de grote v/d project zo gedaan.
 const corn = {
     name: "corn",
     yield: 30,
@@ -10,7 +10,12 @@ const corn = {
         low: -50,
         medium: 0,
         high: 50,
-              },
+        },
+        wind: {
+        low: -50,
+        medium: 0,
+        high: 50,
+        },
     },
 };
 
@@ -23,7 +28,12 @@ const pumpkin = {
         low: -50,
         medium: 0,
         high: 50,
-              },
+        },
+        wind: {
+        low: -50,
+        medium: 0,
+        high: 50,
+        },
     },
 };
 
@@ -34,6 +44,7 @@ const crops = [
           
 const environmentFactors = {
     sun: "low",
+    wind: "medium"
 };
 
 describe("getYieldForPlant", () => {
@@ -45,7 +56,7 @@ describe("getYieldForPlant", () => {
 describe("getYieldForCrop", () => {
     const corn = {
         name: "corn",
-        yield: 3,
+        yield: 30,
         factors: {
             sun: {
             low: -50,
@@ -56,20 +67,17 @@ describe("getYieldForCrop", () => {
     };
     const input = {
         crop: corn,
-        numCrops: 10,
+        numCrops: 5,
     };
 
     test("Get yield for crop, simple", () => {
         
-        expect(getYieldForCrop(input)).toBe(30);
-        
-    });
+        expect(getYieldForCrop(crops[0])).toBe(150);
+    }); 
 
-    test("get yield for crop + low sun", () => {
-        expect(getYieldForCrop(input, environmentFactors)).toBe(15);
-    }) 
-
-
+    test("get yield for crop + factors", () => {
+        expect(getYieldForCrop(crops[0], environmentFactors)).toBe(75);
+    }); 
 });
 
 describe("getTotalYield", () => {
@@ -83,7 +91,6 @@ describe("getTotalYield", () => {
         expect(getTotalYield({ cropsEmpty })).toBe(0);
     });
 }); 
-
 
 
 describe("getCostsForCrop", () => {
